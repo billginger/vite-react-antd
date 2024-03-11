@@ -14,3 +14,12 @@
 body {
   margin: 0;
 }
+
+.ant-radio-group-solid .ant-radio-button-wrapper {
+  background: none;
+  color: #fff;
+}
+
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  border-color: #fff;
+}
