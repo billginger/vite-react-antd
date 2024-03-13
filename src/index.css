@@ -17,9 +17,22 @@ body {
 
 .ant-radio-group-solid .ant-radio-button-wrapper {
   background: none;
-  color: #fff;
 }
 
-.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-  border-color: #fff;
+.ant-table-wrapper {
+  width: 100%;
+}
+
+.ant-table-wrapper .ant-table {
+  background: none;
+  border-radius: 0;
+  border-top: 1px solid #555;
+}
+
+.ant-table-wrapper .ant-table-thead>tr>th {
+  background: none;
+}
+
+.ant-table-wrapper .ant-table-thead>tr>th::before {
+  display: none;
 }

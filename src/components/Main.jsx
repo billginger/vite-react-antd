@@ -1,10 +1,15 @@
-import { Flex, Radio, Card, Table } from 'antd'
+import { Flex, Radio, Card as C, Spin, Table } from 'antd'
 import Title from './Title'
+import Card from './Card'
 
-const columns = ['cpm', 'ROAS', 'spend', '# purchase', 'ctr', 'market_name', 'query_time'].map(item => ({
-  title: item,
-  dataIndex: item,
-}))
+const columns = ['key', 'cpm', 'ROAS', 'spend', '# purchase', 'ctr', 'market_name', 'query_time'].map(item => {
+  const title = item == 'key' ? '' : item
+  return ({
+    title,
+    dataIndex: item,
+    align: 'right',
+  })
+})
 
 const Main = ({ data }) => (
   <Flex vertical gap="middle" className="main">
@@ -18,18 +23,20 @@ const Main = ({ data }) => (
         <Radio.Button value="ytd">YTD</Radio.Button>
       </Radio.Group>
     </Flex>
-    <Flex gap="middle">
-      <Card>1</Card>
-      <Card>2</Card>
-      <Card>3</Card>
-      <Card>4</Card>
-      <Card>5</Card>
+    <Flex gap="middle" wrap="wrap" style={{ marginBottom: 20 }}>
+      {data.cardData?.length ? data.cardData.map(item => (
+        <Card key={item.label} data={item} />
+      )) : (
+        <C bordered={false}>
+          <Spin />
+        </C>
+      )}
     </Flex>
     <Flex>
       <Title>Table Summary</Title>
     </Flex>
     <Flex>
-      <Table columns={columns} dataSource={data.table} />
+      <Table size="middle" columns={columns} dataSource={data.tableData} loading={!data.tableData?.length} />
     </Flex>
   </Flex>
 )
