@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ConfigProvider, theme, Col, Row } from 'antd'
 import Main from './components/Main'
+import Sider from './components/Sider'
 import getData from './libs/getData'
 import './App.css'
 
@@ -9,13 +10,20 @@ const defaultTableData = []
 const defaultData = { defaultCardData, defaultTableData }
 
 const App = () => {
-  const [data, setData] = useState(defaultData);
+  const [range, setRange] = useState('7D')
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState(defaultData)
+  const [line, setLine] = useState(null)
 
   useEffect(() => {
-    getData(setData)
-  }, []);
-
-  console.log(data)
+    (async function () {
+      setLoading(true)
+      setLine(null)
+      const data = await getData(range)
+      setLoading(false)
+      setData(data)
+    })()
+  }, [range])
 
   return (
     <ConfigProvider theme={{
@@ -26,10 +34,10 @@ const App = () => {
     }}>
       <Row>
         <Col span={16} className="main-container">
-          <Main data={data} />
+          <Main range={range} setRange={setRange} loading={loading} data={data} setLine={setLine} />
         </Col>
         <Col span={8}>
-          Sider
+          <Sider data={line} />
         </Col>
       </Row>
     </ConfigProvider>

@@ -2,6 +2,11 @@ import { Flex, Radio, Card as C, Spin, Table } from 'antd'
 import Title from './Title'
 import Card from './Card'
 
+const options = ['7D', '14D', '1M', '3M', 'YTD'].map(item => ({
+  label: item,
+  value: item,
+}))
+
 const columns = ['key', 'cpm', 'ROAS', 'spend', '# purchase', 'ctr', 'market_name', 'query_time'].map(item => {
   const title = item == 'key' ? '' : item
   return ({
@@ -11,32 +16,34 @@ const columns = ['key', 'cpm', 'ROAS', 'spend', '# purchase', 'ctr', 'market_nam
   })
 })
 
-const Main = ({ data }) => (
+const Main = ({ range, setRange, loading, data, setLine }) => (
   <Flex vertical gap="middle" className="main">
     <Flex gap="middle" align="center">
       <Title>Pinned Metrics</Title>
-      <Radio.Group defaultValue="7d" size="small" buttonStyle="solid">
-        <Radio.Button value="7d">7D</Radio.Button>
-        <Radio.Button value="14d">14D</Radio.Button>
-        <Radio.Button value="1m">1M</Radio.Button>
-        <Radio.Button value="3m">3M</Radio.Button>
-        <Radio.Button value="ytd">YTD</Radio.Button>
-      </Radio.Group>
+      <Radio.Group
+        size="small"
+        optionType="button"
+        buttonStyle="solid"
+        options={options}
+        value={range}
+        disabled={loading}
+        onChange={({ target: { value } }) => setRange(value)}
+      />
     </Flex>
     <Flex gap="middle" wrap="wrap" style={{ marginBottom: 20 }}>
-      {data.cardData?.length ? data.cardData.map(item => (
-        <Card key={item.label} data={item} />
-      )) : (
+      {loading ? (
         <C bordered={false}>
           <Spin />
         </C>
-      )}
+      ) : data.cardData.map(item => (
+        <Card key={item.label} data={item} setLine={setLine} />
+      ))}
     </Flex>
     <Flex>
       <Title>Table Summary</Title>
     </Flex>
     <Flex>
-      <Table size="middle" columns={columns} dataSource={data.tableData} loading={!data.tableData?.length} />
+      <Table size="middle" columns={columns} dataSource={data.tableData} loading={loading} />
     </Flex>
   </Flex>
 )

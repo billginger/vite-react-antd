@@ -11,3 +11,22 @@
   margin: 0;
   color: #fff;
 }
+
+.main .tinyLine canvas {
+  cursor: pointer;
+}
+
+.sider {
+  padding: 15px;
+}
+
+.sider .line-container {
+  margin-top: 43px;
+  background: #003764;
+  border-radius: 8px;
+}
+
+.sider .line-title {
+  padding: 15px;
+  font-weight: bold;
+}
